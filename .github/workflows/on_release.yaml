@@ -1,0 +1,30 @@
+---
+name: New Release
+on:
+  schedule:
+    - cron: '0 22 * * 5'
+  repository_dispatch:
+    types: [semantic-release]
+  workflow_dispatch:
+permissions: write-all
+
+env:
+  TAG_NAME: ${{ github.event.inputs.TAG_NAME || github.event.release.tag_name }}
+
+jobs:
+  release:
+    runs-on: [self-hosted, macOS, X64]
+    permissions: 
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x 
+      - run: npm install @semantic-release/git @semantic-release/github
+      - run: npx semantic-release
+        env: 
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}

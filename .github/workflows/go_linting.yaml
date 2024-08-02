@@ -1,0 +1,36 @@
+---
+name: Go Lint
+
+on:
+  push:
+    paths:
+      - '**.go'
+      - '**.mod'
+      - '**.sum'
+      - '!docs/**'
+      
+permissions:
+  contents: read
+  # Optional: allow read access to pull request. Use with `only-new-issues` option.
+  # pull-requests: read
+
+jobs:
+  golangci:
+    name: GO Lint
+    runs-on: [self-hosted, macOS, X64]
+    strategy:
+      matrix:
+        go-version: ['1.22.x']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache-dependency-path: subdir/go.sum
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: -v --config .golangci.yml
+        

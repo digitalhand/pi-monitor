@@ -1,0 +1,43 @@
+---
+name: PR Validation
+
+on:
+  pull_request:
+    paths:
+      - 'infra/**'
+      - 'cmd/**'
+      - 'pkg/**'
+      - 'internal/**'
+      - 'go.mod'
+      - 'go.sum'
+      - 'test/**'
+      - '.github/workflows/**'
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: [self-hosted, macOS, X64]
+    strategy:
+      matrix:
+        go-version: ['1.22.x']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache-dependency-path: subdir/go.sum
+      - name: Install dependencies
+        working-directory: ${{ github.workspace }}/cmd/pimonitor
+        run: go mod tidy
+      - name: Run Test
+        working-directory: ${{ github.workspace }}/test
+        run: go test -v
+      - name: Go Build
+        working-directory: ${{ github.workspace }}
+        run: |
+            make build
+      - name: make copmile
+        working-directory: ${{ github.workspace }}
+        run: |
+            make compile

@@ -22,8 +22,9 @@ func VerifyPathExists(path string) (string, error) {
 	return "error", nil
 }
 
-func captureVideo()(bool, error) {
-	out, err := exec.Command("rpicam-vid -b 9000000 -t 20000 --width 1920 --height 1080 --codec libav --libav-audio -o test.mp4").Output()
+
+func captureVideo(filename string)(bool, error) {
+	out, err := exec.Command("rpicam-vid -b 9000000 -t 20000 --width 1920 --height 1080 --codec libav --libav-audio -o ", filename, "_", time.Now().Format(time.RFC850),".mp4").Output()
 	if err != nil {
 		fmt.Printf("%s", err)
 		return false, err

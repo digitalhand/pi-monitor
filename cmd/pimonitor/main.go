@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
@@ -21,6 +22,21 @@ func VerifyPathExists(path string) (string, error) {
 	return "error", nil
 }
 
+func captureVideo()(bool, error) {
+	out, err := exec.Command("rpicam-vid -b 9000000 -t 20000 --width 1920 --height 1080 --codec libav --libav-audio -o test.mp4").Output()
+	if err != nil {
+		fmt.Printf("%s", err)
+		return false, err
+  }
+
+	output := string(out[:])
+	fmt.Println("Video Request Sent. ", output)
+	time.Sleep(40 * time.Second)
+	return true, err
+
+}
+
+
 func main() {
 	path := "/sys/bus/w1/devices/"
 	ds18b20, err := VerifyPathExists(path)
@@ -34,7 +50,13 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Println("Temp: ", faren)
-		//time.Sleep(3 * time.Second)
+
+		video, err := captureVideo()
+			if err != nil {
+			log.Fatal(err)
+		}
+		if video { fmt.Println("Video Captured!")}
+		
 	}
 
 }

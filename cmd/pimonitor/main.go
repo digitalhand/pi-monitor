@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -42,6 +43,9 @@ func captureVideo(filename string)(bool, error) {
 
 
 func main() {
+
+	var wg sync.WaitGroup
+
 	path := "/sys/bus/w1/devices/"
 	ds18b20, err := VerifyPathExists(path)
 	if err != nil {
@@ -49,19 +53,21 @@ func main() {
 	}
 
 	for true {
+		wg.Add(1)
 		_, faren, err := GetSensorTemperature(path + ds18b20 + "/w1_slave")
 		if err != nil {
 			log.Fatal(err)
 		}
 		fmt.Println("Temp: ", faren)
+		wg.Wait()
+	}
 
+		wg.Add(2)
 		video, err := captureVideo("videocapture")
 			if err != nil {
 			log.Fatal(err)
 		}
 		if video { fmt.Println("Video Captured!")}
-		
-	}
 
 }
 

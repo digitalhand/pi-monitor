@@ -4,7 +4,8 @@
   - [Raspberry Pi Camera](#raspberry-camera)
   - [Raspberry Pi Sensor](#raspberry-pi-temperature-sensor)
   - [Raspberry Pi Sensor Setup](#raspberry-pi-temp-sensor-setup)
-  - [References](#)
+  - [Rpicam](#raspberry-pi-camera)
+  - [References](#references)
 
 
 
@@ -17,6 +18,7 @@ An application written in Go to capture ds18b20 temperature information. An alte
 3. Temperature sensor (DS18B20) or similar.
 4. Operating System Ubuntu Raspberry Pi https://ubuntu.com/raspberry-pi
 5. Go 1.23.x+ 
+6. rpicam-* (formally known as libcamera-*) https://www.raspberrypi.com/documentation/computers/camera_software.html
 
 ## Raspberry Pi Details
 Model: Raspberry Pi 4 Model B Rev 1.4, 8GB
@@ -47,3 +49,15 @@ Model: Raspberry Pi 4 Model B Rev 1.4, 8GB
 ![](docs/images/device_path.png)
 
 ![](docs/images/sensor_details.png)
+
+## Rpicam
+Standard Camera Video Capture, https://www.raspberrypi.com/documentation/computers/camera_software.html
+- About 17MB, 20 Second video.
+```bash 
+rpicam-vid -b 9000000 -t 20000 --width 1920 --height 1080 --codec libav --libav-audio -o test.mp4
+```
+
+# References
+1. ["Raspberry Pi Camera Module: More on video capture" by Ashley Whittaker](https://www.raspberrypi.com/news/raspberry-pi-camera-module-more-on-video-capture/)
+2. [Raspberry Pi Docs](https://www.raspberrypi.com/documentation/computers/camera_software.html)
+

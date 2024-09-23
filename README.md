@@ -1,13 +1,22 @@
 - [Summary](#summary)
+  - [Requirements](#requirements)
   - [Raspberry Pi](#raspberry-pi-details)
   - [Raspberry Pi Camera](#raspberry-camera)
   - [Raspberry Pi Sensor](#raspberry-pi-temperature-sensor)
   - [Raspberry Pi Sensor Setup](#raspberry-pi-temp-sensor-setup)
+  - [References](#)
 
 
 
 ## Summary
 An application written in Go to capture ds18b20 temperature information. An alternative to applications written in Python. Additionally, this appliation is to work with a sensor to trigger a camera recording--again in Golang versus Python. Most examples as of today are mainly writen in Python. 
+
+# Requirements
+1. Raspberry Pi 4+
+2. Camera Module Sony Exmor IMX219 or similar. 
+3. Temperature sensor (DS18B20) or similar.
+4. Operating System Ubuntu Raspberry Pi https://ubuntu.com/raspberry-pi
+5. Go 1.23.x+ 
 
 ## Raspberry Pi Details
 Model: Raspberry Pi 4 Model B Rev 1.4, 8GB

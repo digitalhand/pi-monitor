@@ -60,7 +60,7 @@ func main() {
 		}
 		fmt.Println("Temp: ", faren)
 
-		video, err := captureVideo()
+		video, err := captureVideo("videocapture")
 			if err != nil {
 			log.Fatal(err)
 		}

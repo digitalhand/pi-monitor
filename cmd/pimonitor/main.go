@@ -25,14 +25,9 @@ func VerifyPathExists(path string) (string, error) {
 
 func captureVideo(filename string)(bool, error) {
 
-	var timestampValue = time.Now().Format(time.RFC850)
+	//var timestampValue = time.Now().Format(time.RFC850)
 
-	out, err := exec.Command(
-	"rpicam-vid -b 9000000 -t 20000 --width 1920 --height 1080 --codec libav --libav-audio -o ", 
-	fmt.Sprintf(filename), 
-	"_", 
-	fmt.Sprintf(timestampValue),
-	).Output()
+	out, err := exec.Command("bash", "-c", "rpicam-vid -b 9000000 -t 20000 --width 1920 --height 1080 --codec libav --libav-audio -o %d").Output()
 	if err != nil {
 		fmt.Printf("%s", err)
 		return false, err
